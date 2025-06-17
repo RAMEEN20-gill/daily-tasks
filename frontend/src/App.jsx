@@ -13,38 +13,25 @@ function App() {
     loadTasks();
   }, []);
 
- async function loadTasks() {
-  try {
+  async function loadTasks() {
     const data = await api.getTasks();
-    console.log("Fetched tasks from API:", data);  // ADD THIS LINE
+      console.log("Fetched tasks:", data); 
     setTasks(data);
-  } catch (error) {
-    console.error("Failed to load tasks:", error.message);
   }
-}
-
 
   async function handleSave(task) {
-    try {
-      if (task.id) {
-        await api.updateTask(task.id, task);
-      } else {
-        await api.createTask(task);
-      }
-      loadTasks();
-      setEditTask(null);
-    } catch (error) {
-      console.error("Error saving task:", error.message);
+    if (task.id) {
+      await api.updateTask(task.id, task);
+    } else {
+      await api.createTask(task);
     }
+    loadTasks();
+    setEditTask(null);
   }
 
   async function handleDelete(id) {
-    try {
-      await api.deleteTask(id);
-      loadTasks();
-    } catch (error) {
-      console.error("Error deleting task:", error.message);
-    }
+    await api.deleteTask(id);
+    loadTasks();
   }
 
   return (
